@@ -85,7 +85,8 @@ function ResumeUploader({onFileSelect}){
                             Select File
                         </button>
                     </div>
-                    )}
+                    )
+                }
             </div>
             {error && (
                 <p className="mt-2 text-sm text-red-600">{error}</p>
