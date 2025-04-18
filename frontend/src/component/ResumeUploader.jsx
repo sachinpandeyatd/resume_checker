@@ -6,7 +6,7 @@ function ResumeUploader({onFileSelect}){
     const [selectedFile, setSelectedFile] = useState(null);
     const [error, setError] = useState('');
 
-    const onFileDrop = useCallback((acceptedFiles, rejectedFiles) => {
+    const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
         setError('');
         setSelectedFile(null);
 
@@ -18,7 +18,7 @@ function ResumeUploader({onFileSelect}){
         if(acceptedFiles && acceptedFiles.length > 0){
             const file = acceptedFiles[0];
             setSelectedFile(file);
-
+            
             if(onFileSelect){
                 onFileSelect(file);
             }
@@ -28,7 +28,7 @@ function ResumeUploader({onFileSelect}){
     }, [onFileSelect]);
 
     const {getRootProps, getInputProps, isDragActive, open} = useDropzone({
-        onFileDrop,
+        onDrop,
         accept: {
             'application/pdf': ['.pdf'],
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
