@@ -1,5 +1,6 @@
 package com.resChk.controller;
 
+import com.resChk.dto.AnalysisResponseDTO;
 import com.resChk.serviceClient.ResumeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class ResumeController {
         }
 
         try{
-            String analysisResult = service.analyzeResume(file);
+            AnalysisResponseDTO analysisResult = service.analyzeResume(file);
             logger.info("Resume analysis successful for file: {}", file.getOriginalFilename());
             return ResponseEntity.ok(analysisResult);
         }catch (Exception e){

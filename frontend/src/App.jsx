@@ -19,7 +19,7 @@ function App() {
     const formData = new FormData();
     formData.append('resumeFile', resumeFile);
 
-    fetch('/api/v1/check-resume', {
+    fetch('http://localhost:8080/api/v1/check-resume', {
       method : 'POST',
       body : formData,
     }).then(response => response.json()).then(data => {
@@ -28,7 +28,7 @@ function App() {
       console.error('Error uploading file:', error);
     })
 
-    alert(`Analysis would start for ${resumeFile.name}. Backend call not implemented yet.`);
+    alert(`Analysis would start for ${resumeFile.name}`);
   };
 
   return (

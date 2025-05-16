@@ -1,8 +1,9 @@
 package com.resChk.serviceClient;
 
+import com.resChk.dto.AnalysisResponseDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ResumeService {
 
-    String analyzeResume(MultipartFile file) throws Exception;
+    AnalysisResponseDTO analyzeResume(MultipartFile file) throws Exception;
 }
