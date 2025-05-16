@@ -12,11 +12,11 @@ public class GeminiRequestDTO {
         this.contents = Collections.singletonList(content);
     }
 
-    public List<Content> getContent() {
+    public List<Content> getContents() {
         return contents;
     }
 
-    public void setContent(List<Content> content) {
+    public void setContents(List<Content> content) {
         this.contents = content;
     }
 

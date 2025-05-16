@@ -11,6 +11,7 @@ backend.project
 backend.settings
 backend.env
 backend.DS_Store
+application.properties
 
 # General
 .log

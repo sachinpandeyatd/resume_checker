@@ -1,5 +1,6 @@
 package com.resChk.service;
 
+import com.resChk.client.GeminiAiClient;
 import com.resChk.dto.AnalysisResponseDTO;
 import com.resChk.serviceClient.ResumeService;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -20,7 +21,10 @@ import java.nio.charset.StandardCharsets;
 public class ResumeServiceImpl implements ResumeService {
     private static final Logger logger = LoggerFactory.getLogger(ResumeServiceImpl.class);
 
-    public ResumeServiceImpl() {
+    private final GeminiAiClient aiClient;
+
+    public ResumeServiceImpl(GeminiAiClient aiClient) {
+        this.aiClient = aiClient;
         logger.info("ResumeServiceImpl initialized.");
     }
 
@@ -31,8 +35,11 @@ public class ResumeServiceImpl implements ResumeService {
         String extractedText;
         try{
             extractedText = extractTextFromFile(file);
-            logger.debug("Extracted text from {}: \n{}", file.getOriginalFilename(),
-                    extractedText.substring(0, Math.min(extractedText.length(), 200)) + "...");
+            if (extractedText.length() > 200) {
+                logger.debug("Extracted text from {}: \n{}...", file.getOriginalFilename(), extractedText.substring(0, 200));
+            } else {
+                logger.debug("Extracted text from {}: \n{}", file.getOriginalFilename(), extractedText);
+            }
         }catch (IOException e){
             logger.error("Error extracting text from file: {}", file.getOriginalFilename(), e);
             throw new Exception("Failed to read content from the resume file.", e);
@@ -43,10 +50,23 @@ public class ResumeServiceImpl implements ResumeService {
             return new AnalysisResponseDTO("Could not extract any text from the resume. Please ensure it's not an image-only file or empty.", null);
         }
 
-        logger.info("ResumeService: Successfully processed file: {}", file.getOriginalFilename());
-        return new AnalysisResponseDTO("Resume processed successfully.\n\nExtracted Text Preview:\n" +
-                extractedText.substring(0, Math.min(extractedText.length(), 500)) +
-                (extractedText.length() > 500 ? "..." : ""), null);
+        String prompt = "Please analyze the following resume text and provide a concise summary of strengths, " +
+                "areas for improvement, and overall suitability for a software engineering role. " +
+                "Focus on skills, experience, and project work. Format your response clearly.\n\nResume Text:\n" + extractedText;
+
+        String extractedTextPreview = extractedText.substring(0, Math.min(extractedText.length(), 200)) + "...";
+        try{
+            logger.info("Sending prompt to Gemini for file: {}", file.getOriginalFilename());
+            String analysisFromApi = aiClient.generateContent(prompt);
+            logger.info("Result -\n{}", analysisFromApi);
+
+            return new AnalysisResponseDTO(analysisFromApi, extractedTextPreview);
+        }catch (RuntimeException e) {
+            logger.error("Error during AI analysis for file {}: {}", file.getOriginalFilename(), e.getMessage(), e);
+            // Return a DTO indicating the AI error
+            return new AnalysisResponseDTO("An error occurred during AI analysis: " + e.getMessage(),
+                    extractedTextPreview);
+        }
     }
 
     private String extractTextFromFile(MultipartFile file) throws IOException {
