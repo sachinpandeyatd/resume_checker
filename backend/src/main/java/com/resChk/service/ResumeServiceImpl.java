@@ -50,9 +50,23 @@ public class ResumeServiceImpl implements ResumeService {
             return new AnalysisResponseDTO("Could not extract any text from the resume. Please ensure it's not an image-only file or empty.", null);
         }
 
-        String prompt = "Please analyze the following resume text and provide a concise summary of strengths, " +
-                "areas for improvement, and overall suitability for a software engineering role. " +
-                "Focus on skills, experience, and project work. Format your response clearly.\n\nResume Text:\n" + extractedText;
+        String prompt = String.format(
+                "You are an expert resume reviewer and career coach. " +
+                "Analyze the following resume text for a software engineering role. " +
+                "Provide a detailed, constructive, and professional analysis. " +
+                "Please structure your response in Markdown format with the following sections exactly as titled:\n\n" +
+                "### Strengths\n" +
+                "[Provide a bulleted list of key strengths. Be specific and highlight transferable skills, technical proficiencies, and notable achievements. Each point should be well-explained.]\n\n" +
+                "### Areas for Improvement\n" +
+                "[Provide a bulleted list of specific areas where the resume can be improved. Offer actionable advice. For example, instead of saying 'Project detail is lacking,' suggest 'Expand on the project descriptions by including specific technologies used, challenges faced, and solutions implemented. Consider adding GitHub links if available.' Focus on clarity, impact, and completeness.]\n\n" +
+                "### Overall Suitability\n" +
+                "[Give an overall assessment of the candidate's suitability for a generic software engineering role based *only* on the provided resume text. Mention the types of roles they might be a good fit for. Conclude with 1-2 key recommendations for the candidate to enhance their resume's effectiveness.]\n\n" +
+                "--- RESUME TEXT BEGIN ---\n" +
+                "%s\n" +  // Placeholder for the extracted resume text
+                "--- RESUME TEXT END ---\n\n" +
+                "Ensure your analysis is based SOLELY on the provided text and avoids making assumptions not supported by the resume.",
+                extractedText
+        );
 
         String extractedTextPreview = extractedText.substring(0, Math.min(extractedText.length(), 200)) + "...";
         try{
