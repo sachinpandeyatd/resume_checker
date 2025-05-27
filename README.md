@@ -48,36 +48,6 @@ AI Resume Checker is a full-stack web application that allows users to upload th
 *   **npm (or yarn/pnpm):** Package manager for Node.js.
 *   **Git:** Version control.
 
-## Project Structure
-resume_checker/
-├── backend/ # Spring Boot Application
-│ ├── .env # Local environment variables (GITIGNORED!)
-│ ├── pom.xml # Maven project file
-│ └── src/
-│ ├── main/
-│   ├── java/
-│   │ └── #All java related files
-│   └── resources/
-│   ├── application.properties
-│
-└── frontend/ # React (Vite) Application
-├── node_modules/ # (GITIGNORED!)
-├── public/ # Static assets for React app
-│ └── index.html # Main HTML entry point for Vite
-├── src/ # React source code
-│ ├── assets/ # (Optional: for images, fonts, etc.)
-│ ├── components/
-│ │ └── ResumeUpload.jsx
-│ ├── App.jsx # Main App component
-│ ├── index.css # Global styles / Tailwind directives
-│ └── main.jsx # React entry point
-├── .gitignore # Git ignore for frontend
-├── index.html # Main HTML file (Vite moves this to public/ on build in some setups, check yours)
-├── package.json # npm dependencies and scripts
-├── package-lock.json # npm lock file
-└── vite.config.js # Vite configuration
-
-
 ## Prerequisites
 
 *   **Java Development Kit (JDK):** Version 17 or higher.
