@@ -50,25 +50,32 @@ AI Resume Checker is a full-stack web application that allows users to upload th
 
 ## Project Structure
 resume_checker/
-├── frontend/ # React (Vite) Application
-│ ├── public/
-│ ├── src/
-│ ├── package.json
-│ ├── tailwind.config.js
-│ ├── vite.config.js
-│ └── ...
-│
-└── backend/ # Spring Boot Application
-├── src/
+├── backend/ # Spring Boot Application
+│ ├── .env # Local environment variables (GITIGNORED!)
+│ ├── pom.xml # Maven project file
+│ └── src/
 │ ├── main/
-│ │ ├── java/com/yourdomain/resumechecker/ # Main Java code
-│ │ └── resources/
-│ │ ├── application.properties # Spring Boot config (placeholders)
-│ │ └── static/ # (if serving static files from backend)
-│ │ └── templates/ # (if using server-side templates)
-│ └── test/
-├── pom.xml # Maven project file
-└── .env # Local environment variables (GITIGNORED!) - Contains API Key
+│   ├── java/
+│   │ └── #All java related files
+│   └── resources/
+│   ├── application.properties
+│
+└── frontend/ # React (Vite) Application
+├── node_modules/ # (GITIGNORED!)
+├── public/ # Static assets for React app
+│ └── index.html # Main HTML entry point for Vite
+├── src/ # React source code
+│ ├── assets/ # (Optional: for images, fonts, etc.)
+│ ├── components/
+│ │ └── ResumeUpload.jsx
+│ ├── App.jsx # Main App component
+│ ├── index.css # Global styles / Tailwind directives
+│ └── main.jsx # React entry point
+├── .gitignore # Git ignore for frontend
+├── index.html # Main HTML file (Vite moves this to public/ on build in some setups, check yours)
+├── package.json # npm dependencies and scripts
+├── package-lock.json # npm lock file
+└── vite.config.js # Vite configuration
 
 
 ## Prerequisites
